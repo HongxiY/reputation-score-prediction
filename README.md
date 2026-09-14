@@ -64,8 +64,7 @@ messages are taken as they are from `microsoft-graph-yammer-messages.csv`.
 **Stage 2** scores every distinct text once with
 [`cardiffnlp/twitter-roberta-base-sentiment-latest`](https://huggingface.co/cardiffnlp/twitter-roberta-base-sentiment-latest),
 a RoBERTa-base model pre-trained on ~124M English tweets and fine-tuned for
-three-class sentiment on TweetEval (Loureiro et al., 2022, *TimeLMs*). It is
-used off the shelf; nothing is fine-tuned on this project's data. For each
+three-class sentiment on TweetEval (Loureiro et al., 2022, *TimeLMs*). For each
 text it returns a softmax over three classes, `p_neg`, `p_neu` and `p_pos`,
 which sum to 1. Output is `post_sentiment_scores.parquet` with 22,956 rows
 and columns `text, p_neg, p_neu, p_pos`.
