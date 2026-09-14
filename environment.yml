@@ -1,0 +1,33 @@
+# Exact versions this pipeline was built and run against (conda env "traffykai").
+# Recreate with:  conda env create -f code_final/environment.yml
+name: traffykai
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11.16
+  - pip
+  - pip:
+      - torch==2.9.0 --index-url https://download.pytorch.org/whl/cu126
+      - torchvision==0.24.0 --index-url https://download.pytorch.org/whl/cu126
+      - torchaudio==2.9.0 --index-url https://download.pytorch.org/whl/cu126
+      - transformers==5.17.0
+      - pandas==3.0.5
+      - numpy==2.4.6
+      - scikit-learn==1.9.0
+      - scipy==1.17.1
+      - pyarrow==25.0.0
+      - joblib==1.6.0
+
+# Notes:
+#   - torch >= 2.6 is required: cardiffnlp/twitter-roberta-base-sentiment-latest
+#     ships only a pre-safetensors pytorch_model.bin, which transformers
+#     refuses to torch.load below 2.6 (CVE-2025-32434). The cu121 wheel index
+#     tops out at 2.5.1 -- cu126 (or any index with 2.6+) is required to get a
+#     compatible build; this environment was verified on an RTX 4090 with
+#     CUDA 12.4 driver support, which runs cu126 wheels fine.
+#   - Only 02_score_sentiment.py needs the GPU stack (torch/transformers). If
+#     that stage's parquet cache already exists, 01/03/04 need nothing beyond
+#     pandas/numpy/scikit-learn/pyarrow/joblib.
+#   - CUDA_VISIBLE_DEVICES=0 is set inside 02_score_sentiment.py before torch
+#     is imported, so this environment is restricted to a single GPU (cuda:0)
+#     regardless of how many are visible on the host.
