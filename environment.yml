@@ -1,5 +1,5 @@
 # Exact versions this pipeline was built and run against (conda env "traffykai").
-# Recreate with:  conda env create -f code_final/environment.yml
+# Recreate with:  conda env create -f environment.yml
 name: traffykai
 channels:
   - conda-forge
